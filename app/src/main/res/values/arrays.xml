@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="ld_activityScreenTitles">
+        <item>Home</item>
+        <item>Loan History</item>
+        <item>Loan Calculator</item>
+        <item>Profile</item>
+        <item>About App</item>
+        <item>Setting</item>
+
+        <item>Website</item>
+        <item>Log out</item>
+        <item>Exit</item>
+    </string-array>
+
+    <array name="ld_activityScreenIcons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_history</item>
+        <item>@drawable/ic_calc</item>
+        <item>@drawable/ic_profile</item>
+        <item>@drawable/ic_info</item>
+        <item>@drawable/ic_settings</item>
+
+        <item>@drawable/ic_website</item>
+        <item>@drawable/ic_logout</item>
+        <item>@drawable/ic_exit</item>
+    </array>
+
+    <string name="text_expanded">Expanded</string>
+    <string name="text_collapsed">Collapsed</string>
+
+    <string name="Vbody_prompt">Duration</string>
+
+    <string-array name="Vbodyty_arrays">
+        <item>Duration</item>
+        <item>1 Month</item>
+        <item>2 Month</item>
+        <item>3 Month</item>
+    </string-array>
+
+</resources>
