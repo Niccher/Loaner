@@ -6,7 +6,7 @@
         <item>Loan History</item>
         <item>Loan Calculator</item>
         <item>Profile</item>
-        <item>About App</item>
+        <item>About and FAQs</item>
         <item>Setting</item>
 
         <item>Website</item>
@@ -30,13 +30,15 @@
     <string name="text_expanded">Expanded</string>
     <string name="text_collapsed">Collapsed</string>
 
-    <string name="Vbody_prompt">Duration</string>
+    <string name="Vbody_prompt">Repayment Period</string>
 
     <string-array name="Vbodyty_arrays">
-        <item>Duration</item>
-        <item>1 Month</item>
-        <item>2 Month</item>
-        <item>3 Month</item>
+        <item>1 Week</item>
+        <item>2 Weeks</item>
+        <item>3 Weeks</item>
+        <item>4 Weeks</item>
+        <item>5 Weeks</item>
+        <item>6 Weeks</item>
     </string-array>
 
 </resources>

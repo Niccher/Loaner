@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.niccher.loaner.auth.UserLogin;
 import com.niccher.loaner.frag.Frag_About;
 import com.niccher.loaner.frag.Frag_Calc;
 import com.niccher.loaner.frag.Frag_History;
@@ -123,15 +124,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     @Override
     protected void onStart() {
         super.onStart();
-        //GetState();
-        //LoadUsa();
+        GetState();
+        LoadData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //GetState();
-        //LoadUsa();
+        GetState();
+        LoadData();
     }
 
     private void GetState(){
@@ -139,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         if (fuse!=null){
             //
         }else {
-            //startActivity(new Intent(Madeline.this,UserLogin.class));
-            //finish();
+            startActivity(new Intent(MainActivity.this, UserLogin.class));
+            finish();
         }
     }
 
@@ -152,16 +153,12 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             dref1.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String gUsername,gEmail,gimgProfile;
+                    String gUsername,gEmail;
 
-                    gUsername= (String) dataSnapshot.child("gUsername").getValue();
+                    gUsername= (String) dataSnapshot.child("gFname").getValue();
                     gEmail= (String) dataSnapshot.child("gEmail").getValue();
-                    gimgProfile= (String) dataSnapshot.child("gProfilethumb").getValue();
-
                     usr_email.setText(gEmail);
                     usr_handle.setText(gUsername);
-
-                    Picasso.get().load(gimgProfile).into(usr_prof);
                 }
 
                 @Override

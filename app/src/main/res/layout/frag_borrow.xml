@@ -26,13 +26,13 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Time "
                     android:layout_weight="1"
                     android:padding="16dp"
-                    android:textSize="16dp"/>
+                    android:text="Repayment Period"
+                    android:textSize="16dp" />
 
                 <Spinner
-                    android:id="@+id/prod_type"
+                    android:id="@+id/prod_cduration"
                     android:layout_width="0dp"
                     android:gravity="end"
                     android:layout_weight="1"
@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Amount"
+                    android:text="Amount Requested"
                     android:layout_weight="0.49"
                     android:padding="16dp"
                     android:textSize="16dp"/>
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/prod_price"
+                        android:id="@+id/prod_camount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Amount"
@@ -75,7 +75,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/prod_desc"
+                android:id="@+id/prod_ccause"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -84,15 +84,29 @@
                 android:hint="Type a cause for loan application"
                 android:inputType="textCapSentences|textMultiLine" />
 
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Maximum loan you can apply is 100000"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Default loan interest applied is 10%"
+                android:textSize="16dp" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_centerVertical="true"
-                android:id="@+id/prod_send"
+                android:id="@+id/prod_csend"
                 android:text="Request loan"
-                android:drawableEnd="@drawable/ic_send"
                 android:background="#E2C8B2"/>
 
 

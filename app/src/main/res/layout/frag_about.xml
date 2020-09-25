@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Loaner App"
+                android:text="About Loaner and FAQs"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:textColor="#646464"/>
@@ -29,11 +29,93 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your app story here is ..."
+                android:text="1. Why Pay Registration Fee"
                 android:textStyle="bold"
                 android:textSize="16dp"
                 android:textColor="#646464"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is in place so as to remove non commited users from this platform"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textColor="#646464"
                 android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. How much can I borrow"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The value is dependent on your credit score"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Why was my request denied"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You should reapply again. This is determined by the systems in place"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. Whhat if i don't repay"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your details will be fowarded to the collection agencies and can lead to you being blacklisted in other apps"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5. Whhat if activation is not updated"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Check again after some time."
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textColor="#646464"
+                android:layout_marginBottom="20dp"/>
+
 
         </LinearLayout>
 

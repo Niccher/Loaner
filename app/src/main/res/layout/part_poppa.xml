@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b3b3b3">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/popclose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="6dp"
+            app:fabSize="mini"
+            android:src="@drawable/ic_close"
+            android:clickable="true"
+            android:backgroundTint="#D3C8B2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentStart="true"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Amount Requested"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/pop_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="00000"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Repayment Period"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/pop_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="00000"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Interest Charged"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/pop_interest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="00000"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.50"
+                    android:paddingRight="20dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pop_reason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Stated Reason"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apply"
+                android:id="@+id/pend_activate"
+                android:layout_marginTop="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

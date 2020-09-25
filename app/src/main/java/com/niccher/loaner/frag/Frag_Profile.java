@@ -66,15 +66,11 @@ public class Frag_Profile extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser userf;
     DatabaseReference dref1,mDatabaseRef;
-    StorageTask mUploadTask;
     StorageReference mStorageRef;
 
     ProgressDialog pds;
     String PermStor[];
     public static String Varr;
-    private static final int StorageCode=20,ImgPickGalleyCode=40,ImgPickCameraCode=60;
-    Uri uri_image,uri_cam;
-    Bitmap camimg;
 
     public Frag_Profile() {
         // Required empty public constructor
@@ -115,8 +111,6 @@ public class Frag_Profile extends Fragment {
             }
         });
 
-        PermStor = new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
         PopulateMe();
 
         return solv;
@@ -143,7 +137,7 @@ public class Frag_Profile extends Fragment {
     }
 
     private void showEditProfile() {
-        String options[]={"Edit Profile Picture","Edit Phone","Edit Name"};
+        String options[]={"Edit Email","Edit Phone","Edit Name"};
         AlertDialog.Builder aka=new AlertDialog.Builder(getContext());
 
         aka.setTitle("Select any Action");
@@ -152,7 +146,7 @@ public class Frag_Profile extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (i==0){
-                    showEditImg();
+                    showEmail();
 
                 } else if (i==1){
                     //pds.setMessage("Updating Phone");
@@ -168,54 +162,18 @@ public class Frag_Profile extends Fragment {
         aka.create().show();
     }
 
-    private void showEditImg() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .setBorderLineColor(Color.RED)
-                .setBorderCornerColor(Color.BLUE)
-                .setGuidelinesColor(Color.GREEN)
-                .setBorderLineThickness(2)
-                .start(getContext(),this);
-    }
-
     private void PopulateMe() {
         dref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String gEmail,gUsername,gPhone;//, gimgProfile, gimgCover;
-                //gUid=dataSnapshot.child("Uid").getValue().toString();
-                gEmail=dataSnapshot.child("gEmail").getValue().toString();
-                gUsername=dataSnapshot.child("gUsername").getValue().toString();
-                gPhone=dataSnapshot.child("gPhone").getValue().toString();
-                final String gimgProfile=dataSnapshot.child("gProfile").getValue().toString();
-                final String gimgCover=dataSnapshot.child("gCover").getValue().toString();
+                String gEmail,gUsername,gPhone;
+                gEmail= (String) dataSnapshot.child("gEmail").getValue();
+                gUsername= (String) dataSnapshot.child("gFname").getValue();
+                gPhone= (String) dataSnapshot.child("gPhone").getValue();
 
                 uname.setText(gUsername);
                 uphone.setText(gPhone);
                 uemail.setText(gEmail);
-
-                Picasso.get().load(gimgProfile).resize(200,200).networkPolicy(NetworkPolicy.OFFLINE).into(userpic, new Callback() {
-                    @Override
-                    public void onSuccess() {}
-
-                    @Override
-                    public void onError(Exception e) {
-                        Picasso.get().load(gimgProfile).into(userpic);
-                    }
-                });
-
-                Picasso.get().load(gimgProfile).networkPolicy(NetworkPolicy.OFFLINE).into(coverimg, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Picasso.get().load(gimgCover).into(coverimg);
-                    }
-                });
 
             }
 
@@ -224,17 +182,6 @@ public class Frag_Profile extends Fragment {
 
             }
         });
-    }
-
-    private boolean chckPermStor(){
-
-        boolean outcom= ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                (PackageManager.PERMISSION_GRANTED);
-        return outcom;
-    }
-
-    private void reqPermStor(){
-        ActivityCompat.requestPermissions(getActivity(),PermStor,StorageCode);
     }
 
     private void showPhone() {
@@ -343,86 +290,57 @@ public class Frag_Profile extends Fragment {
         aka2.create().show();
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getActivity().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
+    private void showEmail() {
 
-    private void PublishaProfile(){
-        if (uri_image != null) {
-            pds.setTitle("Updating Profile");
-            pds.setMessage("Uploading the new profile");
-            pds.show();
-            StorageReference stoRef = FirebaseStorage.getInstance().getReference("Loaner/Users");
-            final DatabaseReference dref2 = FirebaseDatabase.getInstance().getReference("Loaner/Users").child(userf.getUid());
+        AlertDialog.Builder aka2=new AlertDialog.Builder(getActivity());
 
-            StorageReference fileReference = stoRef.child(System.currentTimeMillis()+ "." + getFileExtension(uri_image));
+        aka2.setTitle("Update Email");
 
-            mUploadTask = fileReference.putFile(uri_image)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        LinearLayout linlay=new LinearLayout(getActivity());
+        linlay.setOrientation(LinearLayout.VERTICAL);
+        linlay.setPadding(10,10,10,10);
+
+        final EditText edi=new EditText(getActivity());
+        edi.setHint("Enter new Email");
+        linlay.addView(edi);
+
+        aka2.setView(linlay);
+
+        aka2.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String new1=edi.getText().toString().trim();
+                if (!TextUtils.isEmpty(new1)){
+                    pds.show();
+                    HashMap<String , Object> hasm2=new HashMap<>();
+                    hasm2.put("gEmail",new1);
+
+                    dref1.updateChildren(hasm2).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
-                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    HashMap<String , Object> hasm2=new HashMap<>();
-                                    hasm2.put("gProfile",uri.toString());
-
-                                    dref2.updateChildren(hasm2).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            pds.dismiss();
-                                            PopulateMe();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            pds.dismiss();
-                                            Toast.makeText(getActivity(), "Failed to Update\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    testa.setVisibility(View.INVISIBLE);
-                                }
-                            });
+                        public void onSuccess(Void aVoid) {
+                            pds.dismiss();
+                            PopulateMe();
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
+                    }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            //mProgressBar.setProgress((int) progress);
+                            pds.dismiss();
+                            Toast.makeText(getActivity(), "Failed to Update\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        } else {
-            Toast.makeText(getActivity(), "No associative Image is selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                uri_image = result.getUri();
-                testa.setVisibility(View.VISIBLE);
-                Picasso.get().load(uri_image).into(testa);
-                PublishaProfile();
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                String er=error.getMessage().toString();
-                Toast.makeText(getActivity(), ""+er, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(), "Blank Space is not Allowed please", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
+        });
+        aka2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        aka2.create().show();
     }
 }
 

@@ -5,20 +5,21 @@ package com.niccher.loaner.mod;
  */
 
 public class Mod_UserConfig {
-    String gUid, gEmail, gUsername, gPhone, gProfile, gCover,gProfilethumb, gCoverthumb;
+    String gUid, gFname, gLname, gPhone, gEmail, gDateBirth, gNationalid, gDate, gPwd;
 
     public Mod_UserConfig() {
     }
 
-    public Mod_UserConfig(String gUid, String gEmail, String gUsername, String gPhone, String gProfile, String gCover, String gProfilethumb, String gCoverthumb) {
+    public Mod_UserConfig(String gUid, String gFname, String gLname, String gPhone, String gEmail, String gDateBirth, String gNationalid, String gDate, String gPwd) {
         this.gUid = gUid;
-        this.gEmail = gEmail;
-        this.gUsername = gUsername;
+        this.gFname = gFname;
+        this.gLname = gLname;
         this.gPhone = gPhone;
-        this.gProfile = gProfile;
-        this.gCover = gCover;
-        this.gProfilethumb = gProfilethumb;
-        this.gCoverthumb = gCoverthumb;
+        this.gEmail = gEmail;
+        this.gDateBirth = gDateBirth;
+        this.gNationalid = gNationalid;
+        this.gDate = gDate;
+        this.gPwd = gPwd;
     }
 
     public String getgUid() {
@@ -29,20 +30,20 @@ public class Mod_UserConfig {
         this.gUid = gUid;
     }
 
-    public String getgEmail() {
-        return gEmail;
+    public String getgFname() {
+        return gFname;
     }
 
-    public void setgEmail(String gEmail) {
-        this.gEmail = gEmail;
+    public void setgFname(String gFname) {
+        this.gFname = gFname;
     }
 
-    public String getgUsername() {
-        return gUsername;
+    public String getgLname() {
+        return gLname;
     }
 
-    public void setgUsername(String gUsername) {
-        this.gUsername = gUsername;
+    public void setgLname(String gLname) {
+        this.gLname = gLname;
     }
 
     public String getgPhone() {
@@ -53,35 +54,43 @@ public class Mod_UserConfig {
         this.gPhone = gPhone;
     }
 
-    public String getgProfile() {
-        return gProfile;
+    public String getgEmail() {
+        return gEmail;
     }
 
-    public void setgProfile(String gProfile) {
-        this.gProfile = gProfile;
+    public void setgEmail(String gEmail) {
+        this.gEmail = gEmail;
     }
 
-    public String getgCover() {
-        return gCover;
+    public String getgDateBirth() {
+        return gDateBirth;
     }
 
-    public void setgCover(String gCover) {
-        this.gCover = gCover;
+    public void setgDateBirth(String gDateBirth) {
+        this.gDateBirth = gDateBirth;
     }
 
-    public String getgProfilethumb() {
-        return gProfilethumb;
+    public String getgNationalid() {
+        return gNationalid;
     }
 
-    public void setgProfilethumb(String gProfilethumb) {
-        this.gProfilethumb = gProfilethumb;
+    public void setgNationalid(String gNationalid) {
+        this.gNationalid = gNationalid;
     }
 
-    public String getgCoverthumb() {
-        return gCoverthumb;
+    public String getgDate() {
+        return gDate;
     }
 
-    public void setgCoverthumb(String gCoverthumb) {
-        this.gCoverthumb = gCoverthumb;
+    public void setgDate(String gDate) {
+        this.gDate = gDate;
+    }
+
+    public String getgPwd() {
+        return gPwd;
+    }
+
+    public void setgPwd(String gPwd) {
+        this.gPwd = gPwd;
     }
 }

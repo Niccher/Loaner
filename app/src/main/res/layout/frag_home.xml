@@ -41,7 +41,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@color/bak2">
 
                             <ImageView
                                 android:layout_width="64dp"
@@ -83,7 +84,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@color/bak2">
 
                             <ImageView
                                 android:layout_width="64dp"
@@ -134,7 +136,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@color/bak2">
 
                             <ImageView
                                 android:layout_width="64dp"
@@ -176,7 +179,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@color/bak2">
 
                             <ImageView
                                 android:layout_width="64dp"
@@ -227,7 +231,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@color/bak2">
 
                             <ImageView
                                 android:layout_width="64dp"

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/pare"
+    android:background="@color/bak">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_alignParentStart="true"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Amount Requested"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:gravity="right"
+                        android:id="@+id/pending_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="00000"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Repayment Period"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:gravity="right"
+                        android:id="@+id/pending_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="00000"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:gravity="left"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Interest Charged"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:gravity="right"
+                        android:id="@+id/pending_interest"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="00000"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:gravity="left"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Total Amount"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:gravity="right"
+                        android:id="@+id/pending_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="00000"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.50"
+                        android:paddingRight="20dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/pending_reason"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Stated Reason"
+                            android:inputType="text" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/pend_activate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Activate Account"
+                    android:background="@drawable/part_small_btn"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/part_small_btn"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:text="How to activate account" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textStyle="normal"
+                        android:textSize="14sp"
+                        android:id="@+id/activate_info"
+                        android:text="sdsd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="App Version v0.1"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="#646464"/>
+
+</RelativeLayout>

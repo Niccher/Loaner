@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -17,233 +19,175 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 
 import com.niccher.loaner.MainActivity;
 import com.niccher.loaner.R;
 import com.niccher.loaner.mod.Mod_UserConfig;
-import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.util.Calendar;
 
-import id.zelory.compressor.Compressor;
 
 public class UserSet extends AppCompatActivity {
 
-    EditText emlR,pwdR;
+    EditText Rfname,Rlname,Rphone,Remail,Rbirth,Rid,Rdate,Rpwd;
     TextView sback;
-    ImageView imgsel,imgshow;
     ProgressDialog pds;
-    ProgressBar prog;
-
-    Uri uri_image;
-    Uri uri_thums;
-    Bitmap bit_thum;
 
     FirebaseAuth mAuth;
     FirebaseUser userf;
     DatabaseReference dref;
     FirebaseDatabase fdbas;
-    StorageReference stoRef,stoThumb;
 
-    StorageTask mUploadTask,mUploadThub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_set);
 
-        mAuth = FirebaseAuth.getInstance();
-        userf=mAuth.getCurrentUser();
-        fdbas= FirebaseDatabase.getInstance();
-
-        stoRef = FirebaseStorage.getInstance().getReference("Loaner/Users");
-
-        stoThumb = FirebaseStorage.getInstance().getReference("Loaner/Users");
-
         dref = FirebaseDatabase.getInstance().getReference("Loaner/Users");
+        mAuth = FirebaseAuth.getInstance();
 
         sback = (TextView) findViewById(R.id.user_new_procid);
-        imgsel = findViewById(R.id.com_imgsel);
-        imgshow = findViewById(R.id.com_image);
 
-        emlR= (EditText) findViewById(R.id.user_set_usr);
-        pwdR= (EditText) findViewById(R.id.user_set_phone);
+        Rfname= (EditText) findViewById(R.id.user_new_fname);
+        Rlname= (EditText) findViewById(R.id.user_new_lname);
+        Rphone= (EditText) findViewById(R.id.user_new_phone);
+        Remail= (EditText) findViewById(R.id.user_new_email);
+        Rbirth= (EditText) findViewById(R.id.user_new_dob);
+        Rid= (EditText) findViewById(R.id.user_new_id);
+        //Rdate= (EditText) findViewById(R.id.user_set_usr);
+        Rpwd= (EditText) findViewById(R.id.user_new_pwd);
 
         pds=new ProgressDialog(this);
-
-        imgsel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CropImage.activity()
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setCropShape(CropImageView.CropShape.OVAL)
-                    .setBorderLineColor(Color.RED)
-                    .setBorderCornerColor(Color.BLUE)
-                    .setGuidelinesColor(Color.GREEN)
-                    .setBorderLineThickness(2)
-                    .start(UserSet.this);
-            }
-        });
-
-        imgshow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setBorderLineColor(Color.RED)
-                        .setBorderCornerColor(Color.BLUE)
-                        .setGuidelinesColor(Color.GREEN)
-                        .setBorderLineThickness(2)
-                        .start(UserSet.this);
-            }
-        });
 
         sback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUploadTask != null && mUploadTask.isInProgress()) {
-                    Toast.makeText(UserSet.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-                } else {
-                    Verrif();
-                }
+                Verrif();
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                uri_image = result.getUri();
-                uri_thums = result.getUri();
-                Picasso.get().load(uri_image).into(imgshow);
-                Verrif();
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                String er=error.getMessage().toString();
-                Toast.makeText(this, "onActivityResult error\n"+er, Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
     private void Verrif() {
-        final String usern = emlR.getText().toString().trim();
-        final String phone = pwdR.getText().toString().trim();
+        final String fname = Rfname.getText().toString().trim();
+        final String lname = Rlname.getText().toString().trim();
+        final String phone = Rphone.getText().toString().trim();
+        final String email = Remail.getText().toString().trim();
+        final String birth = Rbirth.getText().toString().trim();
+        final String national = Rid.getText().toString().trim();
+        final String pwd = Rpwd.getText().toString().trim();
 
-        if (usern.isEmpty()) {
-            emlR.setError("Username is required");
-            emlR.requestFocus();
+
+        if (fname.isEmpty()) {
+            Rfname.setError("First Name is required");
+            Rfname.requestFocus();
             return;
         }
 
-        if (phone.isEmpty()) {
-            pwdR.setError("Phone is required");
-            pwdR.requestFocus();
+        if (lname.isEmpty()) {
+            Rlname.setError("Last Name is required");
+            Rlname.requestFocus();
             return;
         }
 
         if (!Patterns.PHONE.matcher(phone).matches()) {
-            emlR.setError("Please enter a valid Phone Number");
-            emlR.requestFocus();
+            Rphone.setError("Please enter a valid Phone Number");
+            Rphone.requestFocus();
             return;
         }
 
         if (phone.length() < 8) {
-            pwdR.setError("Minimum lenghth of a Phone should be 10");
-            pwdR.requestFocus();
+            Rphone.setError("Minimum length of a Phone should be 10");
+            Rphone.requestFocus();
             return;
         }
 
-        if (uri_image != null) {
-
-            File thumb_file = new File(uri_image.getPath());
-
-            try {
-                bit_thum = new Compressor(this)
-                        .setMaxWidth(120)
-                        .setMaxHeight(120)
-                        .setQuality(60)
-                        .compressToBitmap(thumb_file);
-            } catch (IOException e) {
-                Toast.makeText(this, "Bitmap errors", Toast.LENGTH_SHORT).show();
-            }
-
-            pds.setMessage("Please Wait");
-            pds.show();
-
-            ByteArrayOutputStream baos =new ByteArrayOutputStream();
-            bit_thum.compress(Bitmap.CompressFormat.JPEG,100,baos);
-            byte[] dat=baos.toByteArray();
-
-            StorageReference fileReference = stoRef.child(userf.getUid()+"." + "jpeg");
-
-            StorageReference thumbReference = stoThumb.child(userf.getUid()+ "." + "jpeg");
-
-            try {
-                mUploadThub = thumbReference.putBytes(dat).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        Task<Uri> thumbres = taskSnapshot.getStorage().getDownloadUrl();
-                        thumbres.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri urithum) {
-
-                                Mod_UserConfig upload = new Mod_UserConfig(userf.getUid(),userf.getEmail(),usern,phone,urithum.toString(),urithum.toString(),urithum.toString(),urithum.toString());
-                                dref.child(userf.getUid()).setValue(upload);
-
-                                finish();
-                                startActivity(new Intent(UserSet.this, MainActivity.class));
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-                            }
-                        });
-
-                    }
-                })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                pds.dismiss();
-                                Toast.makeText(UserSet.this, "Thumb addOnFailureListener\n"+e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-            }catch ( Exception uplod){
-                pds.dismiss();
-                Toast.makeText(this, "Thumbnail Upload failure\n"+uplod.getMessage(), Toast.LENGTH_LONG).show();
-            }
-
-        } else {
-            pds.dismiss();
-            Toast.makeText(this, "No associative Profile image is selected", Toast.LENGTH_SHORT).show();
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Remail.setError("Please enter a valid Email Address");
+            Remail.requestFocus();
+            return;
         }
+
+        if (birth.isEmpty()) {
+            Rdate.setError("Date of Birth is required");
+            Rdate.requestFocus();
+            return;
+        }
+
+        if (national.isEmpty()) {
+            Rid.setError("National ID is required");
+            Rid.requestFocus();
+            return;
+        }
+
+        if (pwd.isEmpty()) {
+            Rpwd.setError("National ID is required");
+            Rpwd.requestFocus();
+            return;
+        }
+
+        if (pwd.length() < 7) {
+            Rpwd.setError("Minimum length of a Password should be 7");
+            Rpwd.requestFocus();
+            return;
+        }
+
+        pds.setMessage("Please Wait");
+        pds.show();
+
+        mAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                pds.dismiss();
+                if (task.isSuccessful()) {
+                    try {
+                        userf=mAuth.getCurrentUser();
+                        String uid = dref.push().getKey();
+                        Log.e("getException()", "-+-+-+-+-+-+-+-+-"+userf.getUid());
+                        String now = String.valueOf(Calendar.getInstance().getTimeInMillis());
+                        Mod_UserConfig upload = new Mod_UserConfig(uid,fname,lname,phone,email,birth,national,now,pwd);
+                        dref.child(userf.getUid()).setValue(upload);
+
+                        finish();
+                        startActivity(new Intent(UserSet.this, MainActivity.class));
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        pds.dismiss();
+                    } catch (Exception e) {
+                        pds.dismiss();
+                        Toast.makeText(UserSet.this, "Encountered an error "+e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.e("getException()", "e.getMessage() "+ e.getMessage());
+                    }
+
+                } else {
+
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(getApplicationContext(), "Email has been registered", Toast.LENGTH_SHORT).show();
+                        Log.e("task.getException()", "FirebaseAuthUserCollisionException ");
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Log.e("task.getException()", "task.getException().getMessage(): "+task.getException().getMessage() );
+                    }
+
+                }
+            }
+        });
+
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        startActivity(new Intent(UserSet.this,UserNew.class));
+        startActivity(new Intent(UserSet.this,UserLogin.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
