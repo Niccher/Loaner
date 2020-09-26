@@ -3,6 +3,7 @@ package com.niccher.loaner.frag;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.niccher.loaner.R;
+
 
 
 /**
@@ -50,48 +55,18 @@ public class Frag_Status extends Fragment {
         activate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showActivate();
+                Frag_Activate fraest=new Frag_Activate();
+                Frag_Status frae=new Frag_Status();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, fraest);
+                //fragmentTransaction.remove(null);
+                fragmentTransaction.commit();
             }
         });
 
         return fraghome;
-    }
-
-    private void showActivate() {
-        AlertDialog.Builder aka2=new AlertDialog.Builder(getActivity());
-
-        aka2.setTitle("Activate Account");
-
-        LinearLayout linlay=new LinearLayout(getActivity());
-        linlay.setOrientation(LinearLayout.VERTICAL);
-        linlay.setPadding(10,10,10,10);
-
-        final EditText edi=new EditText(getActivity());
-        edi.setHint("Enter the M-Pesa Confirmation code");
-        linlay.addView(edi);
-
-        aka2.setView(linlay);
-
-        aka2.setPositiveButton("Check", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String new1=edi.getText().toString().trim();
-                if (!TextUtils.isEmpty(new1)){
-                    //pds.show();
-
-                }else {
-                    Toast.makeText(getActivity(), "Blank Space is not Allowed please", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        aka2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        aka2.create().show();
     }
 
     @Override

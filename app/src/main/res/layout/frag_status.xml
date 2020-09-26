@@ -7,88 +7,80 @@
     android:id="@+id/pare"
     android:background="@color/bak">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:layout_height="match_parent"
+        android:padding="30dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.50"
+                android:paddingRight="20dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/pending_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Sorry your account is not yet activated"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/pend_activate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Activate Account"
+                android:background="@drawable/part_small_btn"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_alignParentStart="true"
-                android:padding="20dp">
+                android:background="@drawable/part_small_btn"
+                android:layout_marginTop="30dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:text="How to activate account" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="0.50"
-                        android:paddingRight="20dp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/pending_reason"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Sorry your account is not yet activated"
-                            android:inputType="text" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/pend_activate"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Activate Account"
-                    android:background="@drawable/part_small_btn"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/part_small_btn"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:text="How to activate account" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:id="@+id/activate_info"
-                        android:text="sdsd"/>
-
-                </LinearLayout>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:id="@+id/activate_info"
+                    android:text="sdsd"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+
+    </RelativeLayout>
 
     <TextView
         android:layout_alignParentBottom="true"

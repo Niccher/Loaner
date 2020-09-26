@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.niccher.loaner">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".utils.Loaner"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
 
         <activity android:name=".auth.UserLogin"
             android:theme="@style/AppTheme2">
@@ -20,7 +25,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".auth.UserNew" android:theme="@style/AppTheme2" />
         <activity android:name=".auth.UserSet" android:theme="@style/AppTheme2" />
 
         <activity android:name=".MainActivity" android:theme="@style/AppTheme2"/>

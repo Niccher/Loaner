@@ -1,9 +1,12 @@
 package com.niccher.loaner.frag;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +22,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.niccher.loaner.R;
+import com.niccher.loaner.mod.Mod_Apply;
+
+import java.util.Calendar;
 
 
 /**
@@ -34,6 +44,10 @@ public class Frag_Calc extends Fragment {
     EditText amount, cause;
     Spinner period;
 
+    private DatabaseReference mDatabaseRef;
+    FirebaseAuth mAuth;
+    FirebaseUser userf;
+
     public Frag_Calc() {
         // Required empty public constructor
     }
@@ -46,6 +60,10 @@ public class Frag_Calc extends Fragment {
         View fraghome= inflater.inflate(R.layout.frag_calc, container, false);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Loan Interest Calculator");
+
+        mAuth= FirebaseAuth.getInstance();
+        userf=mAuth.getCurrentUser();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Loaner/Transactions/Borrow/"+userf.getUid());
 
         calc = fraghome.findViewById(R.id.prod_calc0);
         apply = fraghome.findViewById(R.id.prod_apply);
@@ -87,6 +105,22 @@ public class Frag_Calc extends Fragment {
         if (pesa.isEmpty() || sababu.isEmpty() ||muda.isEmpty()){
             Toast.makeText(getContext(), "Fill all the fields to proceed", Toast.LENGTH_SHORT).show();
         }else {
+
+            ProgressDialog ds = new ProgressDialog(getActivity());
+            ds.setMessage("Please wait");
+            ds.create();
+            ds.show();
+            Log.e("Inserting", "Inserting start");
+            String uploadId = mDatabaseRef.push().getKey();
+            Calendar cal= Calendar.getInstance();
+            String tt = String.valueOf(cal.getTimeInMillis());
+            //String gUid, gTime, gAmount, gReason, gAccepted;
+
+            Mod_Apply posed = new Mod_Apply(uploadId,tt,pesa,sababu,"Pending",muda);
+            mDatabaseRef.child(uploadId).setValue(posed);
+            SystemClock.sleep(2000);
+            Log.e("Inserting", "Inserting done");
+            ds.dismiss();
 
             Fragment myFragment = new Frag_Pending();
             Frag_Calc frae=new Frag_Calc();

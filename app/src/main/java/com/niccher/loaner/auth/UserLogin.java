@@ -23,12 +23,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.ActivitySlider;
 import com.niccher.loaner.MainActivity;
 import com.niccher.loaner.R;
 
 
 import net.khirr.android.privacypolicy.PrivacyPolicyDialog;
+
+import java.util.ArrayList;
 
 public class UserLogin extends AppCompatActivity {
 
@@ -65,7 +73,37 @@ public class UserLogin extends AppCompatActivity {
         lg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LogmeIN();
+                String email = eml.getText().toString().trim();
+                String password = pwd.getText().toString().trim();
+
+                if (email.isEmpty()) {
+                    eml.setError("Phone Number is required");
+                    eml.requestFocus();
+                    return;
+                }
+
+                if (!Patterns.PHONE.matcher(email).matches()) {
+                    eml.setError("Please enter a valid Phone Number");
+                    eml.requestFocus();
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    pwd.setError("Password is required");
+                    pwd.requestFocus();
+                    return;
+                }
+
+                if (password.length() < 6) {
+                    pwd.setError("Minimum length of password should be 6 Characters");
+                    pwd.requestFocus();
+                    return;
+                }
+
+                pds.setMessage("Please wait");
+                pds.show();
+                //LogmeIN();
+                Dope(email,password);
             }
         });
 
@@ -198,6 +236,55 @@ public class UserLogin extends AppCompatActivity {
         } else if (intro =="has_seen") {
 
         }
+    }
+
+    private void Dope(String phony, String passy){
+        DatabaseReference dref2= FirebaseDatabase.getInstance().getReference("Loaner/Users");
+        ArrayList<String> usas = new ArrayList<>();
+        String mine = phony+"|-|"+passy;
+
+        dref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int coint = 0, state = 0;
+                pds.dismiss();
+                for (DataSnapshot ds1: dataSnapshot.getChildren()){
+                    coint = coint +1;
+                    String ph = (String) ds1.child("gPhone").getValue();
+                    String em = (String) ds1.child("gEmail").getValue();
+                    String pw = (String) ds1.child("gPwd").getValue();
+                    String code = ph+"|-|"+pw;
+                    usas.add(code);
+                    Log.e("Elements has ", "Values count : "+code);
+                    if (code.equals(mine)){
+                        mAuth.signInWithEmailAndPassword(em, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                pds.dismiss();
+                                if (task.isSuccessful()) {
+                                    finish();
+                                    Intent intent = new Intent(UserLogin.this, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
+
+                Log.e("Elements size", "Values count : "+usas.size());
+                Log.e("Elements need", "Mine as      : "+mine);
+                Toast.makeText(UserLogin.this, "Wrong details provided", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("onCancelled", "DatabaseError: "+databaseError.getMessage());
+            }
+        });
     }
 
 }
