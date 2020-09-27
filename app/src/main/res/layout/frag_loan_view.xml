@@ -139,6 +139,36 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Date Applied"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/pending_timeapply"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="00000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ee"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -158,11 +188,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ff"
+            android:id="@+id/gg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/ff"
             android:orientation="vertical">
 
             <Button
@@ -171,35 +200,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/part_small_btn"
-                android:text="Activate Account"
+                android:text="Delete Request"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/part_small_btn"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="How to activate account"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activate_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="sdsd"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -207,7 +209,6 @@
 
     <TextView
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_version"

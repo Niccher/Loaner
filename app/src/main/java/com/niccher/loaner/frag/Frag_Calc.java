@@ -48,6 +48,8 @@ public class Frag_Calc extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser userf;
 
+    ProgressDialog pds;
+
     public Frag_Calc() {
         // Required empty public constructor
     }
@@ -60,6 +62,8 @@ public class Frag_Calc extends Fragment {
         View fraghome= inflater.inflate(R.layout.frag_calc, container, false);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Loan Interest Calculator");
+
+        pds=new ProgressDialog(getActivity());
 
         mAuth= FirebaseAuth.getInstance();
         userf=mAuth.getCurrentUser();
@@ -94,6 +98,8 @@ public class Frag_Calc extends Fragment {
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pds.setMessage("Please wait");//pds.create();
+                pds.show();
                 ShowDialog(amount.getText().toString(),cause.getText().toString(),period.getSelectedItem().toString());
             }
         });
@@ -105,11 +111,6 @@ public class Frag_Calc extends Fragment {
         if (pesa.isEmpty() || sababu.isEmpty() ||muda.isEmpty()){
             Toast.makeText(getContext(), "Fill all the fields to proceed", Toast.LENGTH_SHORT).show();
         }else {
-
-            ProgressDialog ds = new ProgressDialog(getActivity());
-            ds.setMessage("Please wait");
-            ds.create();
-            ds.show();
             Log.e("Inserting", "Inserting start");
             String uploadId = mDatabaseRef.push().getKey();
             Calendar cal= Calendar.getInstance();
@@ -120,10 +121,10 @@ public class Frag_Calc extends Fragment {
             mDatabaseRef.child(uploadId).setValue(posed);
             SystemClock.sleep(2000);
             Log.e("Inserting", "Inserting done");
-            ds.dismiss();
 
             Fragment myFragment = new Frag_Pending();
             Frag_Calc frae=new Frag_Calc();
+            pds.dismiss();
 
             Bundle args= new Bundle();
             args.putString("pesa",pesa);
@@ -132,6 +133,7 @@ public class Frag_Calc extends Fragment {
             myFragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, myFragment).addToBackStack(null).commit();
         }
+        pds.dismiss();
     }
 
     @Override

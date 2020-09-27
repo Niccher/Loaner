@@ -74,9 +74,7 @@ public class Frag_Activate extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 phoneNumber = editTextPhoneNumber.getText().toString().trim();
-
                 if (TextUtils.isEmpty(phoneNumber)) {
                     editTextPhoneNumber.setError("Please Provide a Phone Number");
                     editTextPhoneNumber.requestFocus();

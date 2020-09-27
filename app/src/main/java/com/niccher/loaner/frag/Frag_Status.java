@@ -20,6 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.R;
 
 
@@ -31,6 +38,11 @@ public class Frag_Status extends Fragment {
 
     Button activate;
     TextView info;
+
+    private DatabaseReference mDatabaseRef;
+    FirebaseAuth mAuth;
+    FirebaseUser userf;
+    String gphone, info_state;
 
     public Frag_Status() {
         // Required empty public constructor
@@ -45,24 +57,48 @@ public class Frag_Status extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Account Status");
 
+        mAuth= FirebaseAuth.getInstance();
+        userf=mAuth.getCurrentUser();
+
         info = fraghome.findViewById(R.id.activate_info);
         activate= fraghome.findViewById(R.id.pend_activate);
 
-        String info_state = "1. Go to M-Pesa\n2. Lipa na M-Pesa\n3. Select Paybill\n4. Bussines Number XXXXXXXX\n5. Account Number {My Phone Number}";
-        info_state+="\n6. Enter Amount 280\n7. Enter PIN and Confirm";
-        info.setText(info_state);
+        try {
+            mDatabaseRef= FirebaseDatabase.getInstance().getReference("Loaner/Users").child(userf.getUid());
+            mDatabaseRef.keepSynced(true);
+
+            mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    gphone = String.valueOf(dataSnapshot.child("gPhone").getValue());
+                    Log.e("String", "onDataChange: "+gphone );
+                    info_state = "1. Go to M-Pesa\n2. Lipa na M-Pesa\n3. Select Paybill\n4. Bussines Number 723747\n5. Account Number "+ gphone;
+                    info_state+="\n6. Enter Amount 280\n7. Enter PIN and Confirm";
+
+                    info.setText(info_state);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }catch (Exception ex){
+            Log.e("Frag Status ", "LoadUsa Data ********************: \n" +ex.getMessage());
+        }
 
         activate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Frag_Activate fraest=new Frag_Activate();
+                /*Frag_Activate fraest=new Frag_Activate();
                 Frag_Status frae=new Frag_Status();
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container, fraest);
-                //fragmentTransaction.remove(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.remove(null);
+                fragmentTransaction.commit();*/
             }
         });
 

@@ -247,7 +247,7 @@ public class UserLogin extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int coint = 0, state = 0;
-                pds.dismiss();
+                //pds.dismiss();
                 for (DataSnapshot ds1: dataSnapshot.getChildren()){
                     coint = coint +1;
                     String ph = (String) ds1.child("gPhone").getValue();
@@ -277,7 +277,7 @@ public class UserLogin extends AppCompatActivity {
 
                 Log.e("Elements size", "Values count : "+usas.size());
                 Log.e("Elements need", "Mine as      : "+mine);
-                Toast.makeText(UserLogin.this, "Wrong details provided", Toast.LENGTH_LONG).show();
+                //Toast.makeText(UserLogin.this, "Wrong details provided", Toast.LENGTH_LONG).show();
             }
 
             @Override

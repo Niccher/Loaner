@@ -1,6 +1,7 @@
 package com.niccher.loaner.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.niccher.loaner.R;
+import com.niccher.loaner.frag.Frag_Loan_View;
 import com.niccher.loaner.mod.Mod_Apply;
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +52,24 @@ public class Adp_Apply extends RecyclerView.Adapter<Adp_Apply.ViewHolder> {
         holder.dur.setText("Grace Period "+mLinks.get(position).getgDuration());
 
         holder.accpt.setText(mLinks.get(position).getgAccepted());
+
+        holder.rel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                Fragment myFragment = new Frag_Loan_View();
+                Bundle args= new Bundle();
+                args.putString("tarehe",java_date);
+                args.putString("nambari",mLinks.get(position).getgUid());
+                args.putString("pesa",mLinks.get(position).getgAmount());
+                args.putString("sababu",mLinks.get(position).getgReason());
+                args.putString("muda",mLinks.get(position).getgDuration());
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.container, myFragment).addToBackStack(null).commit();
+
+            }
+        });
     }
 
     @Override
@@ -55,17 +77,10 @@ public class Adp_Apply extends RecyclerView.Adapter<Adp_Apply.ViewHolder> {
         return mLinks.size();
     }
 
-    public void SetNotes(List<Mod_Apply> mod_products){
-        this.mLinks = mod_products;
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView image;
-        TextView desc,amt,time, accpt,dur;
-
         RelativeLayout rel;
+        TextView desc,amt,time, accpt,dur;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +89,8 @@ public class Adp_Apply extends RecyclerView.Adapter<Adp_Apply.ViewHolder> {
             time = itemView.findViewById(R.id.txt_dat);
             accpt = itemView.findViewById(R.id.txt_priority);
             dur = itemView.findViewById(R.id.txt_time);
+
+            rel = itemView.findViewById(R.id.txt_rel);
         }
     }
 

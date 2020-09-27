@@ -88,7 +88,6 @@ public class Frag_Profile extends Fragment {
 
         userf=mAuth.getCurrentUser();
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("Loaner/Users");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Loaner/Users").child(userf.getUid());
         dref1=FirebaseDatabase.getInstance().getReference("Loaner/Users").child(userf.getUid());
         dref1.keepSynced(true);

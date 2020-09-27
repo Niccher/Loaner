@@ -47,6 +47,8 @@ public class Frag_Borrow extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser userf;
 
+    ProgressDialog pds;
+
     public Frag_Borrow() {
         // Required empty public constructor
     }
@@ -59,6 +61,8 @@ public class Frag_Borrow extends Fragment {
         View fraghome= inflater.inflate(R.layout.frag_borrow, container, false);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Borrow");
+
+        pds=new ProgressDialog(getActivity());
 
         mAuth= FirebaseAuth.getInstance();
         userf=mAuth.getCurrentUser();
@@ -122,7 +126,7 @@ public class Frag_Borrow extends Fragment {
 
             Fragment myFragment = new Frag_Pending();
             Frag_Borrow frae=new Frag_Borrow();
-
+            pds.dismiss();
             Bundle args= new Bundle();
             args.putString("pesa",pesa);
             args.putString("sababu",sababu);
@@ -134,10 +138,8 @@ public class Frag_Borrow extends Fragment {
     }
 
     private void Insert(String am, String res, String tm){
-        ProgressDialog ds = new ProgressDialog(getActivity());
-        ds.setMessage("Please wait");
-        ds.create();
-        ds.show();
+        pds.setMessage("Please wait");//pds.create();
+        pds.show();
         Log.e("Inserting", "Inserting start");
         String uploadId = mDatabaseRef.push().getKey();
         Calendar cal= Calendar.getInstance();
@@ -148,7 +150,6 @@ public class Frag_Borrow extends Fragment {
         mDatabaseRef.child(uploadId).setValue(posed);
         SystemClock.sleep(2000);
         Log.e("Inserting", "Inserting done");
-        ds.dismiss();
     }
 
     @Override

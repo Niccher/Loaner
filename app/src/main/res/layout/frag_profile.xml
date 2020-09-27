@@ -119,4 +119,14 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_version"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="#646464"/>
+
 </RelativeLayout>

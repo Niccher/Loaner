@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Loaner</string>
+    <string name="app_name">Europol Azima SACCO</string>
+
+    <string name="app_version">App Version v0.5</string>
 </resources>

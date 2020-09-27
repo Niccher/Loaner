@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
+    String gphone;
 
     FirebaseAuth mAuth;
     FirebaseUser userf;
@@ -67,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     private static final int POS_Calculator = 2;
     private static final int POS_Profile = 3;
     private static final int POS_About_App = 4;
-    private static final int POS_Setting = 5;
+    //private static final int POS_Setting = 5;
 
-    private static final int POS_WEBSITE = 6;
-    private static final int POS_LOG = 7;
-    private static final int POS_EXIT = 8;
+    //private static final int POS_WEBSITE = 5;
+    private static final int POS_LOG = 5;
+    private static final int POS_EXIT = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 createItemFor(POS_Calculator),
                 createItemFor(POS_Profile),
                 createItemFor(POS_About_App),
-                createItemFor(POS_Setting),
-                new SpaceItem(32),
-                createItemFor(POS_WEBSITE),
+                //createItemFor(POS_Setting),
+                //new SpaceItem(32),
+                //createItemFor(POS_WEBSITE),
                 createItemFor(POS_LOG),
                 createItemFor(POS_EXIT)));
         adapter.setListener(MainActivity.this);
@@ -153,12 +154,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             dref1.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String gUsername,gEmail;
+                    String gUsername,gEmail,gphone;
 
                     gUsername= (String) dataSnapshot.child("gFname").getValue();
                     gEmail= (String) dataSnapshot.child("gEmail").getValue();
+                    gphone= (String) dataSnapshot.child("gPhone").getValue();
+
                     usr_email.setText(gEmail);
                     usr_handle.setText(gUsername);
+                    //Log.e("Casa ", "Phone as " +(String) dataSnapshot.child("gPhone").getValue());
                 }
 
                 @Override
@@ -202,13 +206,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             FragmentManager frman1=getSupportFragmentManager();
             frman1.beginTransaction().replace(R.id.container,frags).commit();
         }
-        if (position == POS_Setting) {
+        /*if (position == POS_Setting) {
             frags=new Frag_Setting();
             FragmentManager frman1=getSupportFragmentManager();
             frman1.beginTransaction().replace(R.id.container,frags).commit();
-        }
+        }*/
 
-        if (position == POS_WEBSITE) {
+        /*if (position == POS_WEBSITE) {
             Toast.makeText(this, "Target Website Not Set, Redirecting to Google", Toast.LENGTH_LONG).show();;
             try {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("www.google.com"));
@@ -217,10 +221,12 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
                 startActivity(browserIntent);
             }
-        }
+        }*/
         if (position == POS_LOG) {
             mAuth.signOut();
-            GetState();
+            //GetState();
+            startActivity(new Intent(MainActivity.this, UserLogin.class));
+            finish();
         }
         if (position == POS_EXIT) {
             Toast.makeText(this, "Exiting", Toast.LENGTH_LONG).show();;

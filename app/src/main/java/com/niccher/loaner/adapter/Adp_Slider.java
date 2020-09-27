@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,24 +25,24 @@ public class Adp_Slider extends PagerAdapter {
     }
 
     public int[] image_slide ={
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background
+            R.mipmap.bag,
+            R.mipmap.grow1,
+            R.mipmap.notes1,
+            R.mipmap.takecoin2
     };
 
     public String[] heading_slide ={
-            "Welcome",
-            "Delivery",
-            "Delivery 2",
-            "Assortment"
+            "Europol Azima SACCO.",
+            "Grow Limits.",
+            "M-Pesa.",
+            "Instantly Credited."
     };
 
     public String[] description_slide ={
-            "Best Loan app",
-            "Low interest",
-            "Long duration of time",
-            "High loan score"
+            "Welcome to Europol Azima SACCO.",
+            "Grow your loan limit by regularly taking and paying loan.",
+            "Your loan is sent to your M-Psesa account.",
+            "No delays in processing your loan request."
     };
 
     @Override
@@ -63,6 +64,7 @@ public class Adp_Slider extends PagerAdapter {
 
         RelativeLayout change = view.findViewById(R.id.changeme);
 
+        ImageView slide_imageView = view.findViewById(R.id.tvImage);
         TextView slideHeading = view.findViewById(R.id.tvHeading);
         TextView slideDescription = view.findViewById(R.id.tvDescription);
 
@@ -70,17 +72,17 @@ public class Adp_Slider extends PagerAdapter {
             change.setBackgroundColor(getColor(context,R.color.bak1));
         }
         if ( (heading_slide[position])=="Delivery"){
-            change.setBackgroundColor(getColor(context,R.color.colorAccent));
+            change.setBackgroundColor(getColor(context,R.color.bak1));
         }
         if ( (heading_slide[position])=="Delivery 2"){
-            change.setBackgroundColor(getColor(context,R.color.bak));
+            change.setBackgroundColor(getColor(context,R.color.bak1));
         }
         if ( (heading_slide[position])=="Assortment"){
             //change.setBackgroundResource(R.mipmap.assortment);
-            change.setBackgroundColor(getColor(context,R.color.colorPrimaryDark));
+            change.setBackgroundColor(getColor(context,R.color.bak1));
         }
 
-        //slide_imageView.setImageResource(image_slide[position]);
+        slide_imageView.setImageResource(image_slide[position]);
         slideHeading.setText(heading_slide[position]);
         slideDescription.setText(description_slide[position]);
 
