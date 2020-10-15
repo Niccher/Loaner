@@ -36,9 +36,7 @@
                     android:layout_width="0dp"
                     android:gravity="end"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/Vbodyty_arrays"
-                    android:prompt="@string/Vbody_prompt"/>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -95,6 +93,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/int_level"
                 android:padding="8dp"
                 android:text="Default loan interest applied is 10%"
                 android:textSize="16dp" />

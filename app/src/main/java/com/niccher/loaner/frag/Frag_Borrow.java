@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,7 +36,7 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Frag_Borrow extends Fragment {
+public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedListener {
     
     Button apply,next;
     Dialog myDialog;
@@ -42,6 +44,8 @@ public class Frag_Borrow extends Fragment {
 
     EditText amount, cause,rea;
     Spinner period;
+
+    String interest;
 
     private DatabaseReference mDatabaseRef;
     FirebaseAuth mAuth;
@@ -72,45 +76,27 @@ public class Frag_Borrow extends Fragment {
         amount = fraghome.findViewById(R.id.prod_camount);
         cause = fraghome.findViewById(R.id.prod_ccause);
         period = fraghome.findViewById(R.id.prod_cduration);
+        p_interest= fraghome.findViewById(R.id.int_level);
 
+        ArrayAdapter<String> timeArray;
+        period.setOnItemSelectedListener(this);
 
-        myDialog = new Dialog(getActivity());
-        myDialog.setContentView(R.layout.part_poppa);
-        next= myDialog.findViewById(R.id.pend_activate);
+        timeArray = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        timeArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        p_pesa= myDialog.findViewById(R.id.pop_amount);
-        p_muda= myDialog.findViewById(R.id.pop_time);
-        p_sababu= myDialog.findViewById(R.id.pop_reason);
-        p_interest= myDialog.findViewById(R.id.pop_interest);
+        period.setAdapter(timeArray);
 
-        FloatingActionButton close = myDialog.findViewById(R.id.popclose);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialog.dismiss();
-            }
-        });
+        timeArray.add("1 Week");
+        timeArray.add("2 Week");
+        timeArray.add("3 Week");
+        timeArray.add("4 Week");
+        timeArray.add("5 Week");
+        timeArray.add("6 Week");
         
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowDialog(amount.getText().toString(),cause.getText().toString(),period.getSelectedItem().toString());
-            }
-        });
-
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Frag_Pending fraest=new Frag_Pending();
-                Frag_Borrow frae=new Frag_Borrow();
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, fraest);
-                fragmentTransaction.remove(frae);
-                fragmentTransaction.commit();
-
-                myDialog.dismiss();
             }
         });
 
@@ -158,4 +144,40 @@ public class Frag_Borrow extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int timeSpinnerPosition = period.getSelectedItemPosition();
+        switch (timeSpinnerPosition) {
+            case 0:
+                Log.e("setOnClickListener", "period: int as " + period.getSelectedItem());
+                interest = "5";
+                break;
+            case 1:
+                Log.e("setOnClickListener", "period: int as " + period.getSelectedItem());
+                interest = "6";
+                break;
+            case 2:
+                Log.e("setOnClickListener", "period: int as " + period.getSelectedItem());
+                interest = "8";
+                break;
+            case 3:
+                Log.e("setOnClickListener", "period: int as " + period.getSelectedItem());
+                interest = "10";
+                break;
+            case 4:
+                Log.e("setOnClickListener", "period: int as " + period.getSelectedItem());
+                interest = "10";
+                break;
+            case 5:
+                Log.e("setOnClickListener", "period: int as " + period.getSelectedItem());
+                interest = "10";
+                break;
+        }
+        p_interest.setText("Loan interest to be applied is "+interest+"%");
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

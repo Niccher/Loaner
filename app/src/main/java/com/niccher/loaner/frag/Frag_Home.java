@@ -1,17 +1,29 @@
 package com.niccher.loaner.frag;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.R;
+import com.niccher.loaner.utils.Konstants;
 
 
 /**
@@ -19,7 +31,11 @@ import com.niccher.loaner.R;
  */
 public class Frag_Home extends Fragment {
 
-    CardView card_add_prod,card_view_prod,card_add_gallery,card_view_gallery,cvprof;
+    LinearLayout card_add_prod,card_view_prod,card_add_gallery,card_view_gallery,cvprof;
+    TextView welcome, declares;
+
+    FirebaseAuth mAuth;
+    FirebaseUser userf;
 
     public Frag_Home() {
         // Required empty public constructor
@@ -34,6 +50,13 @@ public class Frag_Home extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dashboard");
 
+        mAuth= FirebaseAuth.getInstance();
+        userf=mAuth.getCurrentUser();
+
+        welcome=fraghome.findViewById(R.id.welc);
+        declares=fraghome.findViewById(R.id.decl);
+
+        LoadData();
 
         card_add_prod=fraghome.findViewById(R.id.card_add);
         card_view_prod=fraghome.findViewById(R.id.card_view);
@@ -108,6 +131,29 @@ public class Frag_Home extends Fragment {
 
         return fraghome;
     }
+
+    private void LoadData() {
+        DatabaseReference dref2= FirebaseDatabase.getInstance().getReference(Konstants.Data_Users+"/"+userf.getUid());
+        dref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //pds.dismiss();
+                //String gUid, gFname, gLname, gPhone, gEmail, gDateBirth, gNationalid, gDate, gPwd;
+                String nm = (String) dataSnapshot.child("gFname").getValue();
+                String sm = (String) dataSnapshot.child("gLname").getValue();
+                String ph = (String) dataSnapshot.child("gPhone").getValue();
+
+                welcome.setText("Hello "+nm+", Welcome back to Europol Azima SACCO, Continue borrowing and repaying to grow your loan limits, currently you can borrow loan upto KShs 12,000.00 .");
+                declares.setText(sm+", Your currently loan balance is 0, any loan that you apply, will be sent to "+ph+" .");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("onCancelled", "DatabaseError: "+databaseError.getMessage());
+            }
+        });
+    }
+
 
     @Override
     public void onCreate( Bundle savedInstanceState) {

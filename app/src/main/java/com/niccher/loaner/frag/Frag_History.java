@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.R;
 import com.niccher.loaner.adapter.Adp_Apply;
 import com.niccher.loaner.mod.Mod_Apply;
+import com.niccher.loaner.utils.Konstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Frag_History extends Fragment {
         // Inflate the layout for this fragment
         View fraghome= inflater.inflate(R.layout.frag_history, container, false);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Loan History");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Applied Loans");
 
         mAuth= FirebaseAuth.getInstance();
         userf=mAuth.getCurrentUser();
@@ -71,9 +72,9 @@ public class Frag_History extends Fragment {
     }
 
     private void GetInit(){
-        DatabaseReference dref= FirebaseDatabase.getInstance().getReference("Loaner/Transactions/Borrow/"+userf.getUid());
+        DatabaseReference dref= FirebaseDatabase.getInstance().getReference(Konstants.Data_Borrow +userf.getUid());
         dref.keepSynced(true);
-        Log.e("DataSnapshot", "User as : "+"Loaner/Transactions/Borrow/"+userf.getUid());
+        Log.e("DataSnapshot", "User as : "+Konstants.Data_Borrow +userf.getUid());
 
         dref.addValueEventListener(new ValueEventListener() {
             @Override
