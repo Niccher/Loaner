@@ -42,11 +42,13 @@ public class Adp_Apply extends RecyclerView.Adapter<Adp_Apply.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         Long tistamp = Long.valueOf(mLinks.get(position).getgTime());
+        float intr = Float.parseFloat(mLinks.get(position).getgInterest())/100;
         Date date = new Date(tistamp);
         SimpleDateFormat jdf = new SimpleDateFormat("MMM dd HH:mm a");//yyyy MMM dd HH:mm a
         String java_date = jdf.format(date);
 
         holder.desc.setText(mLinks.get(position).getgReason());
+        holder.intt.setText(String.valueOf(intr)+"%");
         holder.amt.setText(mLinks.get(position).getgAmount()+" KShs");
         holder.time.setText(java_date);
         holder.dur.setText("Grace Period "+mLinks.get(position).getgDuration());
@@ -80,7 +82,7 @@ public class Adp_Apply extends RecyclerView.Adapter<Adp_Apply.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         RelativeLayout rel;
-        TextView desc,amt,time, accpt,dur;
+        TextView desc,amt,time, accpt,dur,intt;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -89,6 +91,7 @@ public class Adp_Apply extends RecyclerView.Adapter<Adp_Apply.ViewHolder> {
             time = itemView.findViewById(R.id.txt_dat);
             accpt = itemView.findViewById(R.id.txt_priority);
             dur = itemView.findViewById(R.id.txt_time);
+            intt = itemView.findViewById(R.id.txt_int);
 
             rel = itemView.findViewById(R.id.txt_rel);
         }

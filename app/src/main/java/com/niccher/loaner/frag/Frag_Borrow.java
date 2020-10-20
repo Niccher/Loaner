@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.niccher.loaner.R;
 import com.niccher.loaner.mod.Mod_Apply;
+import com.niccher.loaner.utils.Konstants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,7 +73,7 @@ public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedL
 
         mAuth= FirebaseAuth.getInstance();
         userf=mAuth.getCurrentUser();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Loaner/Transactions/Borrow/"+userf.getUid());
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(Konstants.Data_Borrow+"/" +userf.getUid());
 
         apply = fraghome.findViewById(R.id.prod_csend);
         amount = fraghome.findViewById(R.id.prod_camount);
@@ -100,6 +103,28 @@ public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedL
             }
         });
 
+        amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 5){
+                    amount.setText("12000");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int iss = Integer.parseInt(String.valueOf(s));
+                if (iss > 12000){
+                    amount.setText("12000");
+                    amount.setError("Value Can't be over 99999");
+                }
+            }
+        });
+
         return fraghome;
     }
 
@@ -117,24 +142,32 @@ public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedL
             args.putString("pesa",pesa);
             args.putString("sababu",sababu);
             args.putString("muda",muda);
+            args.putString("kiwango",interest);
             myFragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, myFragment).remove(frae).commit();
         }
 
     }
 
-    private void Insert(String am, String res, String tm){
-        pds.setMessage("Please wait");//pds.create();
-        pds.show();
-        Log.e("Inserting", "Inserting start");
-        String uploadId = mDatabaseRef.push().getKey();
-        Calendar cal= Calendar.getInstance();
-        String tt = String.valueOf(cal.getTimeInMillis());
-        //String gUid, gTime, gAmount, gReason, gAccepted;
+    private void Insert(String pesa, String sababu, String muda){
 
-        Mod_Apply posed = new Mod_Apply(uploadId,tt,am,res,"Pending",tm);
-        mDatabaseRef.child(uploadId).setValue(posed);
-        SystemClock.sleep(2000);
+        pds.setMessage("Please wait");
+        pds.show();
+
+        if (pesa.isEmpty() || sababu.isEmpty() ||muda.isEmpty()){
+            Toast.makeText(getContext(), "Fill all the fields to proceed", Toast.LENGTH_SHORT).show();
+        }else {
+            String uploadId = mDatabaseRef.push().getKey();
+            Calendar cal= Calendar.getInstance();
+            String tt = String.valueOf(cal.getTimeInMillis());
+            //String gUid, gTime, gAmount, gReason, gAccepted;
+
+            Mod_Apply posed = new Mod_Apply(uploadId,tt,pesa,sababu,"Pending",muda,interest);
+            mDatabaseRef.child(uploadId).setValue(posed);
+            SystemClock.sleep(2000);
+        }
+
+
         Log.e("Inserting", "Inserting done");
     }
 

@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:textColor="@color/price"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:text="Title"
             android:id="@+id/txt_title"
@@ -52,13 +53,24 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_title"
             android:id="@+id/txt_body"
-            android:text="Description"></TextView>
+            android:text="Description"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_body"
             android:id="@+id/txt_time"
-            android:text="Timed"></TextView>
+            android:text="Timed"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/txt_time"
+            android:layout_below="@+id/txt_body"
+            android:layout_alignParentEnd="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:id="@+id/txt_int"
+            android:text="Timed"/>
 
     </RelativeLayout>
 

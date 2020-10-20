@@ -72,9 +72,9 @@ public class Frag_History extends Fragment {
     }
 
     private void GetInit(){
-        DatabaseReference dref= FirebaseDatabase.getInstance().getReference(Konstants.Data_Borrow +userf.getUid());
+        DatabaseReference dref= FirebaseDatabase.getInstance().getReference(Konstants.Data_Borrow+"/" +userf.getUid());
         dref.keepSynced(true);
-        Log.e("DataSnapshot", "User as : "+Konstants.Data_Borrow +userf.getUid());
+        //Log.e("DataSnapshot", "User as : "+Konstants.Data_Borrow +userf.getUid());
 
         dref.addValueEventListener(new ValueEventListener() {
             @Override

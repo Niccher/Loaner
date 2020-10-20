@@ -1,22 +1,19 @@
 package com.niccher.loaner.mod;
 
-/**
- * Created by niccher on 04/06/19.
- */
-
 public class Mod_Apply {
-    String gUid, gTime, gAmount, gReason, gAccepted, gDuration;
+    String gUid, gTime, gAmount, gReason, gAccepted, gDuration, gInterest;
 
     public Mod_Apply() {
     }
 
-    public Mod_Apply(String gUid, String gTime, String gAmount, String gReason, String gAccepted, String gDuration) {
+    public Mod_Apply(String gUid, String gTime, String gAmount, String gReason, String gAccepted, String gDuration, String gInterest) {
         this.gUid = gUid;
         this.gTime = gTime;
         this.gAmount = gAmount;
         this.gReason = gReason;
         this.gAccepted = gAccepted;
         this.gDuration = gDuration;
+        this.gInterest = gInterest;
     }
 
     public String getgUid() {
@@ -65,5 +62,13 @@ public class Mod_Apply {
 
     public void setgDuration(String gDuration) {
         this.gDuration = gDuration;
+    }
+
+    public String getgInterest() {
+        return gInterest;
+    }
+
+    public void setgInterest(String gInterest) {
+        this.gInterest = gInterest;
     }
 }

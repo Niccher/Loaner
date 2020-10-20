@@ -1,7 +1,9 @@
 package com.niccher.loaner.frag;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.R;
-
+import com.niccher.loaner.utils.Konstants;
 
 
 /**
@@ -37,12 +39,15 @@ import com.niccher.loaner.R;
 public class Frag_Status extends Fragment {
 
     Button activate;
+
     TextView info;
 
-    private DatabaseReference mDatabaseRef;
+    DatabaseReference mDatabaseRef;
     FirebaseAuth mAuth;
     FirebaseUser userf;
-    String gphone, info_state;
+    String gphone,info_state;
+
+    ProgressDialog pds;
 
     public Frag_Status() {
         // Required empty public constructor
@@ -57,22 +62,24 @@ public class Frag_Status extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Account Status");
 
-        mAuth= FirebaseAuth.getInstance();
-        userf=mAuth.getCurrentUser();
 
         info = fraghome.findViewById(R.id.activate_info);
         activate= fraghome.findViewById(R.id.pend_activate);
 
+        pds = new ProgressDialog(getActivity());
+
+        mAuth= FirebaseAuth.getInstance();
+        userf=mAuth.getCurrentUser();
+
         try {
-            mDatabaseRef= FirebaseDatabase.getInstance().getReference("Loaner/Users").child(userf.getUid());
-            mDatabaseRef.keepSynced(true);
+            mDatabaseRef= FirebaseDatabase.getInstance().getReference(Konstants.Data_Users+"/"+userf.getUid());
 
             mDatabaseRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     gphone = String.valueOf(dataSnapshot.child("gPhone").getValue());
-                    Log.e("String", "onDataChange: "+gphone );
+                    //Log.e("String", "onDataChange: "+gphone );
                     info_state = "1. Go to M-Pesa\n2. Lipa na M-Pesa\n3. Select Paybill\n4. Bussines Number 723747\n5. Account Number "+ gphone;
                     info_state+="\n6. Enter Amount 280\n7. Enter PIN and Confirm";
 
@@ -91,18 +98,55 @@ public class Frag_Status extends Fragment {
         activate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Frag_Activate fraest=new Frag_Activate();
-                Frag_Status frae=new Frag_Status();
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, fraest);
-                fragmentTransaction.remove(null);
-                fragmentTransaction.commit();*/
+                showActivate();
             }
         });
 
         return fraghome;
+    }
+
+    //private void
+
+    private void showActivate() {
+        AlertDialog.Builder aka2=new AlertDialog.Builder(getActivity());
+
+        aka2.setTitle("Activate Account");
+
+        LinearLayout linlay=new LinearLayout(getActivity());
+        linlay.setOrientation(LinearLayout.VERTICAL);
+        linlay.setPadding(10,10,10,10);
+
+        final EditText edi=new EditText(getActivity());
+        edi.setHint("Enter the M-Pesa Confirmation code");
+        linlay.addView(edi);
+
+        aka2.setView(linlay);
+
+        aka2.setPositiveButton("Check", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String new1=edi.getText().toString().trim();
+                if (!TextUtils.isEmpty(new1)){
+                    pds.setMessage("Verifying Code");
+                    pds.show();
+                    SystemClock.sleep(4000);
+                    pds.dismiss();
+                    Toast.makeText(getActivity(), "We will get back to you soonest\n Thank you", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Toast.makeText(getActivity(), "Blank Space is not Allowed please", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        aka2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Toast.makeText(getActivity(), "Try again please", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        aka2.create().show();
     }
 
     @Override

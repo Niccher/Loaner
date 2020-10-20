@@ -1,10 +1,12 @@
 package com.niccher.loaner.frag;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.MainActivity;
 import com.niccher.loaner.R;
+import com.niccher.loaner.utils.Konstants;
 
 
 /**
@@ -50,6 +53,8 @@ public class Frag_Pending extends Fragment {
     FirebaseUser userf;
     String gphone,info_state;
 
+    ProgressDialog pds;
+
     public Frag_Pending() {
         // Required empty public constructor
     }
@@ -67,6 +72,8 @@ public class Frag_Pending extends Fragment {
         md = fraghome.findViewById(R.id.pending_time);
         sb = fraghome.findViewById(R.id.pending_reason);
 
+        pds = new ProgressDialog(getActivity());
+
         tot = fraghome.findViewById(R.id.pending_total);
         in = fraghome.findViewById(R.id.pending_interest);
 
@@ -80,7 +87,7 @@ public class Frag_Pending extends Fragment {
         activate= fraghome.findViewById(R.id.pend_activate);
 
         try {
-            mDatabaseRef= FirebaseDatabase.getInstance().getReference("Loaner/Users").child(userf.getUid());
+            mDatabaseRef= FirebaseDatabase.getInstance().getReference(Konstants.Data_Users).child(userf.getUid());
             mDatabaseRef.keepSynced(true);
 
             mDatabaseRef.addValueEventListener(new ValueEventListener() {
@@ -113,15 +120,20 @@ public class Frag_Pending extends Fragment {
 
         getbun = getArguments();
 
+        float rt = Integer.parseInt(getbun.getString("kiwango"));
+        float mn = Integer.parseInt(getbun.getString("pesa"));
+        float intr = rt/100;
+
         String pesa=getbun.getString("pesa");
         String muda=getbun.getString("muda");
         String sababu=getbun.getString("sababu");
-        double fina = Integer.parseInt(pesa) + (Integer.parseInt(pesa) * .1);
+        String kiwango=getbun.getString("kiwango");
+        float fina = mn + (intr * mn);
 
         ps.setText(pesa);
         md.setText(muda);
         sb.setText(sababu);
-        in.setText("10%");
+        in.setText(kiwango);
         tot.setText( String.valueOf(fina));
 
         return fraghome;
@@ -149,7 +161,12 @@ public class Frag_Pending extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String new1=edi.getText().toString().trim();
                 if (!TextUtils.isEmpty(new1)){
-                    //pds.show();
+                    dialogInterface.dismiss();
+                    pds.setMessage("Verifying Code");
+                    pds.show();
+                    SystemClock.sleep(4000);
+                    pds.dismiss();
+                    Toast.makeText(getActivity(), "We will get back to you soonest\n Thank you", Toast.LENGTH_SHORT).show();
 
                 }else {
                     Toast.makeText(getActivity(), "Blank Space is not Allowed please", Toast.LENGTH_SHORT).show();
@@ -160,6 +177,7 @@ public class Frag_Pending extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                Toast.makeText(getActivity(), "Try again please", Toast.LENGTH_SHORT).show();
             }
         });
 
