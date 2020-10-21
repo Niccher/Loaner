@@ -1,6 +1,7 @@
 package com.niccher.loaner.frag;
 
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,6 +38,8 @@ import com.niccher.loaner.utils.Konstants;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.niccher.loaner.utils.Loaner.ch_ID;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +54,8 @@ public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedL
     Spinner period;
 
     String interest;
+
+    NotificationManagerCompat notmanager;
 
     private DatabaseReference mDatabaseRef;
     FirebaseAuth mAuth;
@@ -70,6 +77,7 @@ public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedL
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Borrow");
 
         pds=new ProgressDialog(getActivity());
+        notmanager = NotificationManagerCompat.from(getActivity());
 
         mAuth= FirebaseAuth.getInstance();
         userf=mAuth.getCurrentUser();
@@ -164,11 +172,25 @@ public class Frag_Borrow extends Fragment implements AdapterView.OnItemSelectedL
 
             Mod_Apply posed = new Mod_Apply(uploadId,tt,pesa,sababu,"Pending",muda,interest);
             mDatabaseRef.child(uploadId).setValue(posed);
-            SystemClock.sleep(2000);
+            PopNotify();
         }
 
 
         Log.e("Inserting", "Inserting done");
+    }
+
+    private void PopNotify() {
+        long dd = Calendar.getInstance().getTimeInMillis();
+        int ids = Integer.parseInt(String.valueOf(dd).substring(8));
+        //Log.e("PopNotify()", "PopNotify: as "+ids);
+
+        Notification nott = new NotificationCompat.Builder(getActivity(), ch_ID)
+                .setSmallIcon(R.drawable.ic_passed)
+                .setContentText("Your loan request has been received and will be processed shortly. \n We will keep you posted.")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notmanager.notify(ids,nott);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.niccher.loaner.frag;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,6 +35,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.R;
 import com.niccher.loaner.utils.Konstants;
+
+import java.util.Calendar;
+
+import static com.niccher.loaner.utils.Loaner.ch_ID;
 
 
 /**
@@ -46,6 +54,8 @@ public class Frag_Status extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser userf;
     String gphone,info_state;
+
+    NotificationManagerCompat notmanager;
 
     ProgressDialog pds;
 
@@ -63,6 +73,7 @@ public class Frag_Status extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Account Status");
 
 
+        notmanager = NotificationManagerCompat.from(getActivity());
         info = fraghome.findViewById(R.id.activate_info);
         activate= fraghome.findViewById(R.id.pend_activate);
 
@@ -127,11 +138,13 @@ public class Frag_Status extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String new1=edi.getText().toString().trim();
                 if (!TextUtils.isEmpty(new1)){
+                    /*dialogInterface.dismiss();
                     pds.setMessage("Verifying Code");
                     pds.show();
                     SystemClock.sleep(4000);
-                    pds.dismiss();
+                    pds.dismiss();*/
                     Toast.makeText(getActivity(), "We will get back to you soonest\n Thank you", Toast.LENGTH_SHORT).show();
+                    PopNotify();
 
                 }else {
                     Toast.makeText(getActivity(), "Blank Space is not Allowed please", Toast.LENGTH_SHORT).show();
@@ -147,6 +160,20 @@ public class Frag_Status extends Fragment {
         });
 
         aka2.create().show();
+    }
+
+    private void PopNotify() {
+        long dd = Calendar.getInstance().getTimeInMillis();
+        int ids = Integer.parseInt(String.valueOf(dd).substring(8));
+        //Log.e("PopNotify()", "PopNotify: as "+ids);
+
+        Notification nott = new NotificationCompat.Builder(getActivity(), ch_ID)
+                .setSmallIcon(R.drawable.ic_passed)
+                .setContentText("Your activation is under reviewal. \nShortly we will get back to you and We will keep you posted.")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notmanager.notify(ids,nott);
     }
 
     @Override

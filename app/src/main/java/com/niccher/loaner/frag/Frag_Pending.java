@@ -1,6 +1,7 @@
 package com.niccher.loaner.frag;
 
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,6 +38,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.niccher.loaner.MainActivity;
 import com.niccher.loaner.R;
 import com.niccher.loaner.utils.Konstants;
+
+import java.util.Calendar;
+
+import static com.niccher.loaner.utils.Loaner.ch_ID;
 
 
 /**
@@ -55,6 +62,8 @@ public class Frag_Pending extends Fragment {
 
     ProgressDialog pds;
 
+    NotificationManagerCompat notmanager;
+
     public Frag_Pending() {
         // Required empty public constructor
     }
@@ -74,6 +83,8 @@ public class Frag_Pending extends Fragment {
 
         pds = new ProgressDialog(getActivity());
 
+        notmanager = NotificationManagerCompat.from(getActivity());
+
         tot = fraghome.findViewById(R.id.pending_total);
         in = fraghome.findViewById(R.id.pending_interest);
 
@@ -88,7 +99,6 @@ public class Frag_Pending extends Fragment {
 
         try {
             mDatabaseRef= FirebaseDatabase.getInstance().getReference(Konstants.Data_Users).child(userf.getUid());
-            mDatabaseRef.keepSynced(true);
 
             mDatabaseRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -161,12 +171,13 @@ public class Frag_Pending extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String new1=edi.getText().toString().trim();
                 if (!TextUtils.isEmpty(new1)){
-                    dialogInterface.dismiss();
+                    /*dialogInterface.dismiss();
                     pds.setMessage("Verifying Code");
                     pds.show();
                     SystemClock.sleep(4000);
-                    pds.dismiss();
+                    pds.dismiss();*/
                     Toast.makeText(getActivity(), "We will get back to you soonest\n Thank you", Toast.LENGTH_SHORT).show();
+                    PopNotify();
 
                 }else {
                     Toast.makeText(getActivity(), "Blank Space is not Allowed please", Toast.LENGTH_SHORT).show();
@@ -182,6 +193,21 @@ public class Frag_Pending extends Fragment {
         });
 
         aka2.create().show();
+    }
+
+    private void PopNotify() {
+        long dd = Calendar.getInstance().getTimeInMillis();
+        int ids = Integer.parseInt(String.valueOf(dd).substring(8));
+        //Log.e("PopNotify()", "PopNotify: as "+ids);
+
+        Notification nott = new NotificationCompat.Builder(getActivity(), ch_ID)
+                .setSmallIcon(R.drawable.ic_passed)
+                .setContentText("Your activation is under reviewal. \nShortly we will get back to you and We will keep you posted.")
+                .setSubText("Activation has been been received")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notmanager.notify(ids,nott);
     }
 
     @Override
